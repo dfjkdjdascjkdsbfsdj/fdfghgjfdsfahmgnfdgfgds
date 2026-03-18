@@ -22,8 +22,8 @@ from targets import TARGET_USERS
 from websites import WEBSITES
 
 FOLLOWERS_TOOL_PATH = "/tools/send-follower"
-TOTAL_CYCLES_PER_ACCOUNT = 3  # Kitni baar websites ka loop chalana hai ek account se
-TARGET_DELAY_RANGE = (5, 10) # Delay between websites
+TOTAL_CYCLES_PER_ACCOUNT = 4  # Kitni baar websites ka loop chalana hai ek account se
+TARGET_DELAY_RANGE = (10, 10) # Delay between websites
 
 # ============================================================
 # 2. DRIVER SETUP
@@ -326,4 +326,3 @@ if __name__ == "__main__":
     finally:
         log("👋 Exiting...")
         driver.quit()
-
