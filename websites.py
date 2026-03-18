@@ -1,14 +1,35 @@
+# ============================================================
 # websites.py
+# Firebase-backed but bot.py compatible
+# ============================================================
 
-WEBSITES = [
-    {"name": "takipcimx_net", "login_url": "https://takipcimx.net/login"},
-    {"name": "takipcimx_com", "login_url": "https://takipcimx.com/member"},
-    {"name": "takipcitime", "login_url": "https://takipcitime.com/login"},
-    {"name": "instamoda", "login_url": "https://instamoda.org/login"},
-    {"name": "takipcikrali", "login_url": "https://takipcikrali.com/login"},
-    {"name": "birtakipci", "login_url": "https://birtakipci.com/member"},
-    {"name": "takipciking", "login_url": "https://takipciking.com/member"},
-    {"name": "fastfollow", "login_url": "https://fastfollow.in/member"},
-    {"name": "takipcizen", "login_url": "https://takipcizen.com/login"},
-    {"name": "bayitakipci", "login_url": "https://bayitakipci.com/memberlogin"},
-]
+import firebase_init
+from firebase_admin import db
+
+def _load_websites():
+    ref = db.reference("websites")
+    data = ref.get() or {}
+
+    websites = []
+
+    for site in data.values():
+        if not isinstance(site, dict):
+            continue
+
+        name = site.get("name")
+        login_url = site.get("login_url")
+
+        if name and login_url:
+            websites.append({
+                "name": name,
+                "login_url": login_url
+            })
+
+    if not websites:
+        raise Exception("❌ No websites found in Firebase")
+
+    return websites
+
+
+# 🔥 EXACT SAME VARIABLE bot.py expects
+WEBSITES = _load_websites()
